@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+   <string name="app_name">Cherry Radio</string>
+   <string name="action_settings">Settings</string> 
+   
+   <string name="drawer_open">Open Navigation Drawer</string>
+   <string name="drawer_close">Close Navigation Drawer</string>
+
+   <string-array name="cherry_playlist">
+        <item>When I Was Your Man • By Bruno Mars</item>
+        <item>I Dont Give up • By Jason Mraz</item>
+        <item>Here I Am • Air Supply</item>
+        <item>MAPS • By Maroon 5</item>
+    </string-array>	
+</resources>

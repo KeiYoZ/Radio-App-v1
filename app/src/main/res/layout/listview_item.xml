@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <TextView
+        android:id="@+id/fromTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textColor="#FFFFFF"
+    	android:textSize="14sp"
+        android:paddingLeft="8dp"
+    	android:paddingTop="16dp" />
+
+    <TextView
+        android:id="@+id/dash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/fromTime"
+        android:text="-"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:paddingLeft="4dp"
+        android:paddingTop="16dp" />
+    
+    <TextView
+        android:id="@+id/toTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dash"
+        android:textColor="#FFFFFF"
+    	android:textSize="14sp"
+    	android:paddingLeft="4dip"
+    	android:paddingTop="16dp" />
+    
+    <TextView
+        android:id="@+id/sessionDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/toTime"
+        android:layout_gravity="left"
+        android:textColor="#FFFFFF"
+    	android:textSize="17sp"
+    	android:paddingLeft="8dp"
+    	android:paddingTop="0dp"
+        android:textStyle="bold"/>
+    
+
+
+    
+</RelativeLayout>

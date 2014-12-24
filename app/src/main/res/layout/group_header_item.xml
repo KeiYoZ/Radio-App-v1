@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true">
+ 
+    <!-- title -->
+    <TextView
+         android:id="@+id/header"
+         android:layout_width="1000dip"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:gravity="center"
+         android:textSize="24dip"
+         android:textColor="#FFFFFF"
+         android:background="@drawable/schedule_bg1"  
+		 android:text="SCHEDULE"
+		 android:fontFamily="sans-serif-condensed"
+		 android:textStyle="bold"
+		 android:layout_centerInParent="true"/>
+    
+   <TextView
+         android:id="@+id/header_date"
+         android:layout_width="1000dip"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/header"
+         android:gravity="center"
+         android:textSize="18dip"
+         android:textColor="#FFFFFF"
+         android:background="@drawable/schedule_bg2" 
+		 android:fontFamily="sans-serif-condensed"
+		 android:textStyle="bold"/>
+ 
+    <!--  divider -->
+
+ 
+</RelativeLayout>
