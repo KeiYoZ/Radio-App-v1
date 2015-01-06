@@ -15,7 +15,7 @@
     	android:layout_width="match_parent"
     	android:layout_height="match_parent"
     	android:scaleType="fitXY"
-    	android:src="@drawable/bg_new" />
+    	android:src="@drawable/cherry_background" />
     
     <ImageView
     	android:id="@+id/notif_albumArt"
@@ -59,7 +59,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@null"
                 android:paddingRight="0dip"
-                android:paddingTop="3dip"
+                android:paddingTop="0dip"
                 android:src="@drawable/new_sched_button" />
             
             <!-- End of Title Bar -->
@@ -123,26 +123,26 @@
 
             <ImageButton
                 android:id="@+id/playprevious"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/player_footer_bg2"
                 android:layout_toLeftOf="@+id/playstop"
                 android:background="@android:color/transparent"
-                android:layout_marginBottom="32dp"
-                android:layout_marginRight="20dp"
-                android:src="@null" />
+                android:layout_marginBottom="31dp"
+                android:layout_marginRight="13dp"
+                android:src="@drawable/previous_btn"/>
 
             <ImageButton
                 android:id="@+id/playnext"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/player_footer_bg2"
                 android:layout_toRightOf="@+id/playstop"
                 android:background="@android:color/transparent"
-                android:layout_marginBottom="32dp"
-                android:layout_marginLeft="20dp"
-                android:src="@null" />
-		
+                android:layout_marginBottom="31dp"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/next_btn" />
+
             <TextView
                 android:id="@+id/songName"
                 android:layout_width="180dip" 

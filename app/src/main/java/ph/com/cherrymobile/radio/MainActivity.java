@@ -185,14 +185,16 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         playPrev.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radioStreaming.mediaPlayer.isPlaying()) {
-                    radioStreaming.stopradio();
-                    isPlay = true;
-                    currentPointer--;
-                    if (currentPointer < 0)
-                        currentPointer = currentFullSongList.size() - 1;
-                    showLoad();
-                    playradio();
+                if (radioStreaming.mediaPlayer != null) {
+                    if (radioStreaming.mediaPlayer.isPlaying()) {
+                        radioStreaming.stopradio();
+                        isPlay = true;
+                        currentPointer--;
+                        if (currentPointer < 0)
+                            currentPointer = currentFullSongList.size() - 1;
+                        showLoad();
+                        playradio();
+                    }
                 }
             }
         });
@@ -200,14 +202,16 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         playNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radioStreaming.mediaPlayer.isPlaying()) {
-                    radioStreaming.stopradio();
-                    isPlay = true;
-                    currentPointer++;
-                    if (currentPointer >= currentFullSongList.size())
-                        currentPointer = 0;
-                    showLoad();
-                    playradio();
+                if (radioStreaming.mediaPlayer != null) {
+                    if (radioStreaming.mediaPlayer.isPlaying()) {
+                        radioStreaming.stopradio();
+                        isPlay = true;
+                        currentPointer++;
+                        if (currentPointer >= currentFullSongList.size())
+                            currentPointer = 0;
+                        showLoad();
+                        playradio();
+                    }
                 }
             }
         });
