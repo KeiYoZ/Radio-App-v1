@@ -66,9 +66,13 @@ public class SongListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Song CLASS - Set the results into TextViews
-        holder.name.setText(songList.get(position).name);
-        holder.artist.setText(songList.get(position).artist.getString("name"));
-        
+        Song song = songList.get(position);
+        if (song != null) {
+            holder.name.setText(song.name);
+            if (song.artist != null)
+                holder.artist.setText(song.artist.getString("name"));
+        }
+
         return view;
     }
 }

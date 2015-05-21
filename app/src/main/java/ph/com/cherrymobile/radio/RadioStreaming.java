@@ -28,13 +28,13 @@ public class RadioStreaming implements OnPreparedListener, OnCompletionListener,
     int ctr = 0;
     int songSize = 0;
 
-    List < String > playList = new ArrayList < String > ();
+    List < String > playList = new ArrayList<>();
 
     public static MediaPlayer mediaPlayer;
     public String currentUrl;
 
     public interface OnUpdateMetaDataListener {
-        public void onUpdateMetaData(int pointer);
+        void onUpdateMetaData(int pointer);
     }
 
     private OnUpdateMetaDataListener mListener;

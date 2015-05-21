@@ -38,9 +38,11 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -93,7 +95,6 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
     public String prevSong = "";
     public List < String > plalistURL = new ArrayList < String > ();
     public static ImageView album_art, list_album_art, headphone;
-    public ImageView top_headphone;
 
     boolean is3G = false;
     boolean isWindowFocused = true;
@@ -112,6 +113,8 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
     ParseObject timeTableParseObject;
 
     int currentPointer = 0;
+
+    public static boolean isStreaming = false;
 
     @
     Override
@@ -161,21 +164,21 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
 
         playStop.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                if (radioStreaming.mediaPlayer == null) {
+                if (RadioStreaming.mediaPlayer == null) {
                     isPlay = true;
                     showLoad();
                     playradio();
-                } else if (!radioStreaming.mediaPlayer.isPlaying()) {
+                } else if (!RadioStreaming.mediaPlayer.isPlaying()) {
                     playStop.setImageResource(R.drawable.stop);
-                    radioStreaming.mState = State.Playing;
-                    radioStreaming.mediaPlayer.seekTo(radioStreaming.length);
-                    radioStreaming.mediaPlayer.start();
+                    RadioStreaming.mState = State.Playing;
+                    RadioStreaming.mediaPlayer.seekTo(RadioStreaming.length);
+                    RadioStreaming.mediaPlayer.start();
                     remoteViews.setImageViewResource(R.id.notif_play, R.drawable.stop_small);
-                } else if (radioStreaming.mediaPlayer.isPlaying()) {
-                    radioStreaming.mediaPlayer.pause();
-                    radioStreaming.length = radioStreaming.mediaPlayer.getCurrentPosition();
+                } else if (RadioStreaming.mediaPlayer.isPlaying()) {
+                    RadioStreaming.mediaPlayer.pause();
+                    RadioStreaming.length = RadioStreaming.mediaPlayer.getCurrentPosition();
                     stopcheck = true;
-                    radioStreaming.mState = State.Paused;
+                    RadioStreaming.mState = State.Paused;
                     playStop.setImageResource(R.drawable.play);
                     remoteViews.setImageViewResource(R.id.notif_play, R.drawable.play_small);
                 }
@@ -185,8 +188,8 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         playPrev.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radioStreaming.mediaPlayer != null) {
-                    if (radioStreaming.mediaPlayer.isPlaying()) {
+                if (RadioStreaming.mediaPlayer != null) {
+                    if (RadioStreaming.mediaPlayer.isPlaying()) {
                         radioStreaming.stopradio();
                         isPlay = true;
                         currentPointer--;
@@ -202,8 +205,8 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         playNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radioStreaming.mediaPlayer != null) {
-                    if (radioStreaming.mediaPlayer.isPlaying()) {
+                if (RadioStreaming.mediaPlayer != null) {
+                    if (RadioStreaming.mediaPlayer.isPlaying()) {
                         radioStreaming.stopradio();
                         isPlay = true;
                         currentPointer++;
@@ -228,8 +231,6 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
 
     private void setupView() {
         list_songName = (TextView) findViewById(R.id.list_songName);
-        list_songName = (TextView) findViewById(R.id.list_songName);
-        list_songArtist = (TextView) findViewById(R.id.list_songArtist);
         list_songArtist = (TextView) findViewById(R.id.list_songArtist);
         listView = (ListView) findViewById(R.id.drawerList);
         listView.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -282,8 +283,6 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         songHistory1.setSingleLine(true);
 
         album_art = (ImageView) findViewById(R.id.album_art);
-        top_headphone = (ImageView) findViewById(R.id.top_headphone);
-        top_headphone.setVisibility(View.GONE);
         list_album_art = (ImageView) findViewById(R.id.list_album_art);
         list_album_art.setVisibility(View.GONE);
         headphone = (ImageView) findViewById(R.id.headphone);
@@ -330,11 +329,12 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
                     }
                 } else {
                     // Get Default Timetable
-                    ParseQuery < ParseObject > defaultTimetableQuery = ParseQuery.getQuery("Timetable");
+                    ParseQuery<ParseObject> defaultTimetableQuery = ParseQuery.getQuery("Timetable");
                     defaultTimetableQuery.include("sessions");
                     defaultTimetableQuery.include("sessions.songs");
                     defaultTimetableQuery.include("sessions.songs.artist");
-                    defaultTimetableQuery.getInBackground("aKOcAkgT8y", new GetCallback<ParseObject>() {
+                    defaultTimetableQuery.whereEqualTo("name", "Default Timetable");
+                    defaultTimetableQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject timeTableObject, ParseException e) {
                             if (e == null)
@@ -356,8 +356,11 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         Timetable.name = timeTableObject.getString("name");
         Timetable.desc = timeTableObject.getString("desc");
 
+//        Log.v("TimeTable", Timetable.name);
+
         List<ParseObject> sessionObjects = timeTableObject.getList("sessions");
         for (ParseObject sessionObject : sessionObjects) {
+
             Session session = new Session();
             session.songList = new ArrayList<>();
             session.name = sessionObject.getString("name");
@@ -413,10 +416,8 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
                     } else {
                         if (song.link.length() != 0) {
                             plalistURL.add(song.link);
-                            Log.v("song link", song.link);
                         } else {
                             plalistURL.add(song.linkLowQuality);
-                            Log.v("song linkLowQuality", song.linkLowQuality);
                         }
                     }
                 }
@@ -446,11 +447,13 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         header_date = (TextView) findViewById(R.id.header_date);
         header_date.setText(DateUtils.formatDateTime(context, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 
-        listView2 = (ListView) findViewById(R.id.drawerList2);
-        View playlist_header = getLayoutInflater().inflate(R.layout.playlist_header, null);
-        listView2.addHeaderView(playlist_header);
-        song_adapter = new SongListAdapter(MainActivity.this, songList);
-        listView2.setAdapter(song_adapter);
+        if (!isStreaming) {
+            listView2 = (ListView) findViewById(R.id.drawerList2);
+            View playlist_header = getLayoutInflater().inflate(R.layout.playlist_header, null);
+            listView2.addHeaderView(playlist_header);
+            song_adapter = new SongListAdapter(MainActivity.this, songList);
+            listView2.setAdapter(song_adapter);
+        }
 
         if (isPlay) {
             playradio();
@@ -472,7 +475,6 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         album_art.setVisibility(View.VISIBLE);
         list_album_art.setVisibility(View.VISIBLE);
         list_songName.setVisibility(View.VISIBLE);
-        top_headphone.setVisibility(View.VISIBLE);
         notplaying.setVisibility(View.GONE);
     }
 
@@ -500,10 +502,21 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
         super.onResume();
         isWindowFocused = true;
 
+        checkForCrashes();
+        checkForUpdates();
+
         if (mNotificationManager != null) {
             mNotificationManager.cancelAll();
-
         }
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "ac15f9047cf292c36308a1c19d9590ea");
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this, "ac15f9047cf292c36308a1c19d9590ea");
     }
 
     @
@@ -544,12 +557,12 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
             Intent playIntent = new Intent(ACTION_PLAY);
             PendingIntent pendingplayIntent = PendingIntent.getBroadcast(this, 100, playIntent, 0);
             RemoteViews notificationView = new RemoteViews(getPackageName(), R.drawable.play);
-            notificationView.setOnClickPendingIntent(R.raw.play, pendingplayIntent);
+            notificationView.setOnClickPendingIntent(R.drawable.play, pendingplayIntent);
 
             Intent stopIntent = new Intent(ACTION_STOP);
             PendingIntent pendingstopIntent = PendingIntent.getBroadcast(this, 101, stopIntent, 0);
             RemoteViews notificationView2 = new RemoteViews(getPackageName(), R.layout.listview_item);
-            notificationView2.setOnClickPendingIntent(R.raw.stop, pendingstopIntent);
+            notificationView2.setOnClickPendingIntent(R.drawable.stop, pendingstopIntent);
 
             Intent closeIntent = new Intent(ACTION_CLOSE);
             PendingIntent pendingcloseIntent = PendingIntent.getBroadcast(this, 100, closeIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -612,35 +625,51 @@ public class MainActivity extends Activity implements RadioStreaming.OnUpdateMet
 
         String songTitle = "";
 
+//        if (isStreaming) {
+//            if (radioStreaming.metadata.metaTitle == null && radioStreaming.metadata.metaArtist == null) {
+//                songName.setText("");
+//                songArtist.setText("");
+//                songHistory1.setText("");
+//                album_art.setImageResource(R.drawable.reflection3);
+//            }
+//        } else {
+//
+//        }
+
         if (radioStreaming.metadata.metaTitle == null && radioStreaming.metadata.metaArtist == null) {
-            songName.setText("Unknown Song");
-            songArtist.setText("Unknown Artist");
-            list_songName.setText("Unknown Song");
-            list_songArtist.setText("Unknown Artist");
-            songHistory1.setText("Unknown Artist");
-        } else {
-            if (radioStreaming.metadata.metaTitle != null)
-                songTitle = radioStreaming.metadata.metaTitle;
-            else
-                songTitle = currentFullSongList.get(currentPointer).name;
+                songName.setText("Unknown Song");
+                songArtist.setText("Unknown Artist");
+                list_songName.setText("Unknown Song");
+                list_songArtist.setText("Unknown Artist");
+                songHistory1.setText("Unknown Artist");
+                album_art.setImageResource(R.drawable.reflection3);
+            } else {
+                if (radioStreaming.metadata.metaTitle != null)
+                    songTitle = radioStreaming.metadata.metaTitle;
+                else
+                    songTitle = currentFullSongList.get(currentPointer).name;
 
-            songName.setText("  " + songTitle + " - " + radioStreaming.metadata.metaAlbum);
-            songArtist.setText("By " + radioStreaming.metadata.metaArtist);
-            album_art.setImageBitmap(radioStreaming.metadata.metaAlbumImage);
-            list_songName.setText(songTitle + " - " + radioStreaming.metadata.metaArtist);
-            list_songArtist.setText("By " + radioStreaming.metadata.metaArtist);
-            list_album_art.setImageBitmap(radioStreaming.metadata.metaAlbumImage);
+                songName.setText("  " + songTitle + " - " + radioStreaming.metadata.metaAlbum);
+                songArtist.setText("By " + radioStreaming.metadata.metaArtist);
+                album_art.setImageBitmap(radioStreaming.metadata.metaAlbumImage);
+                list_songName.setText(songTitle + " - " + radioStreaming.metadata.metaArtist);
+                list_songArtist.setText("By " + radioStreaming.metadata.metaArtist);
+                list_album_art.setImageBitmap(radioStreaming.metadata.metaAlbumImage);
 
-            notif_songName = songTitle;
-            notif_songArtist = radioStreaming.metadata.metaArtist;
-            notif_metaAlbumImage = radioStreaming.metadata.metaAlbumImage;
-            notif_resizedBitmap = Bitmap.createScaledBitmap(notif_metaAlbumImage, 80, 80, false);
-        }
+                notif_songName = songTitle;
+                notif_songArtist = radioStreaming.metadata.metaArtist;
+
+                if (notif_metaAlbumImage != null) {
+                    notif_metaAlbumImage = radioStreaming.metadata.metaAlbumImage;
+                    notif_resizedBitmap = Bitmap.createScaledBitmap(notif_metaAlbumImage, 80, 80, false);
+                }
+            }
+
 
         setHistorySong();
 
         prevSong = songTitle;
-        if (isWindowFocused == false) {
+        if (!isWindowFocused) {
             applicationdidenterbackground();
         }
 

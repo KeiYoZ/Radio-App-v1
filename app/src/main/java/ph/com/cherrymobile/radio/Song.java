@@ -13,4 +13,5 @@ public class Song {
     public ParseObject genre;
     public String link;
     public String linkLowQuality;
+    public String type;
 }

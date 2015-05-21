@@ -18,7 +18,7 @@
     </style>
     
     <!--  Transparent dialog -->
-    <style name="TransparentProgressDialog" parent="@android:Theme.Dialog">
+    <style name="TransparentProgressDialog" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
@@ -39,11 +39,11 @@
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
     </style>
     
-     <style name="MyTheme" parent="android:Theme.Holo.Dialog">
+    <style name="MyTheme" parent="Theme.AppCompat.Dialog">
     <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
     <item name="android:windowBackground">@color/transparent</item>
     <item name="android:textColorPrimary">#FFFFFF</item>
-     <item name="android:backgroundDimEnabled">true</item>
+    <item name="android:backgroundDimEnabled">true</item>
     <item name="android:textColor">#FFFFFF</item>
     <item name="android:textStyle">normal</item>
     <item name="android:textSize">12sp</item>

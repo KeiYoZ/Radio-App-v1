@@ -3,6 +3,7 @@ package ph.com.cherrymobile.radio;
 import android.app.Application;
 import android.util.Log;
 
+import com.flurry.android.FlurryAgent;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -12,6 +13,8 @@ import com.parse.SaveCallback;
  * Created by chiboon on 12/24/14.
  */
 public class MainApplication extends Application {
+    public static final String FLURRY_APIKEY = "B46YF5T5VY955FN3TW6G";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,6 +32,7 @@ public class MainApplication extends Application {
             }
         });
 
+        FlurryAgent.init(this, FLURRY_APIKEY);
     }
 
 }

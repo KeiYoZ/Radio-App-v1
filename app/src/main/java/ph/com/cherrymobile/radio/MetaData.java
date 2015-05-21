@@ -16,8 +16,6 @@ public class MetaData {
     public String metaGenre;
     public Bitmap metaAlbumImage;
 
-    @
-    TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public MetaData(String metaURL) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
