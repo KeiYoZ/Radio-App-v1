@@ -341,56 +341,56 @@
                             android:layout_centerInParent="true"
                 			android:gravity="center"/>
                     </RelativeLayout>
-					 
-				<LinearLayout
-					 android:id="@+id/playlist_layout"
-			         android:layout_width="wrap_content"
-			         android:layout_height="45dip"
-					 android:background="@drawable/songs_prev_upcoming">
-					 
-				<TextView
-                     android:id="@+id/playlist"
-			         android:layout_width="wrap_content"
-			         android:layout_height="wrap_content"
-			         android:layout_below="@+id/playlist_layout"
-			         android:paddingTop="10dip" 
-			         android:paddingBottom="5dip" 
-			         android:paddingLeft="15dip" 
-			         android:textSize="17dip"
-			         android:textColor="#FFFFFF" 
-					 android:text="Previous Song:"
-					 android:fontFamily="sans-serif-thin"/>		 
-                    
-					 
-				<TextView
-                     android:id="@+id/songHistory1"
-			         android:layout_width="wrap_content"
-			         android:layout_height="wrap_content"
-					 android:layout_toRightOf="@+id/playlist"
-			         android:paddingTop="0dip" 
-			         android:paddingLeft="10dip" 
-			         android:paddingRight="5dip" 
-			         android:textSize="17dip"
-			         android:textColor="#ff4800" 
-					 android:text=""
-					 android:fontFamily="sans-serif-thin"/>	 
+                    <!--
+                    <LinearLayout
+                         android:id="@+id/playlist_layout"
+                         android:layout_width="wrap_content"
+                         android:layout_height="45dip"
+                         android:background="@drawable/songs_prev_upcoming">
+
+                    <TextView
+                         android:id="@+id/playlist"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/playlist_layout"
+                         android:paddingTop="10dip"
+                         android:paddingBottom="5dip"
+                         android:paddingLeft="15dip"
+                         android:textSize="17dip"
+                         android:textColor="#FFFFFF"
+                         android:text=""
+                         android:fontFamily="sans-serif-thin"/>
+
+
+                    <TextView
+                         android:id="@+id/songHistory1"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_toRightOf="@+id/playlist"
+                         android:paddingTop="0dip"
+                         android:paddingLeft="10dip"
+                         android:paddingRight="5dip"
+                         android:textSize="17dip"
+                         android:textColor="#ff4800"
+                         android:text=""
+                         android:fontFamily="sans-serif-thin"/>
+
+
+                    <TextView
+                         android:id="@+id/previous_song"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:paddingTop="15dip"
+                         android:paddingBottom="2dip"
+                         android:paddingLeft="10dip"
+                         android:textSize="17dip"
+                         android:textColor="#ff4800"
+                         android:text="Upcoming Songs"
+                         android:fontFamily="sans-serif-thin"
+                         android:layout_alignParentBottom="true"/>
+
 				
-				<!--
-                <TextView
-                     android:id="@+id/previous_song"
-			         android:layout_width="wrap_content"
-			         android:layout_height="wrap_content"
-			         android:paddingTop="15dip" 
-			         android:paddingBottom="2dip" 
-			         android:paddingLeft="10dip" 
-			         android:textSize="17dip"
-			         android:textColor="#ff4800" 
-					 android:text="Upcoming Songs"
-					 android:fontFamily="sans-serif-thin"
-					 android:layout_alignParentBottom="true"/>
-				-->
-				
-				</LinearLayout>
+				</LinearLayout>-->
 					 					
                     <ListView
                         android:id="@+id/drawerList2"

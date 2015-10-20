@@ -17,7 +17,8 @@
    	 android:paddingLeft="5dip"
    	 android:paddingRight="4dip"
    	 android:paddingTop="0dip"
-   	 android:paddingBottom="0dip"/>   
+   	 android:paddingBottom="0dip"
+     android:src="@drawable/reflection3"/>
 
    <TextView  
      android:id="@+id/notif_songname"  
